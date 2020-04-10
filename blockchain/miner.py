@@ -23,8 +23,14 @@ def proof_of_work(last_proof):
     start = timer()
 
     print("Searching for next proof")
-    proof = 0
-    #  TODO: Your code here
+
+    # block_string = json.dumps(last_proof, sort_keys=True)
+    print(last_proof)
+    prev_hash = hashlib.sha256(f'{last_proof}'.encode()).hexdigest()
+    proof = 777777
+
+    while valid_proof(prev_hash, proof) is False:
+        proof += 7
 
     print("Proof found: " + str(proof) + " in " + str(timer() - start))
     return proof
@@ -39,8 +45,9 @@ def valid_proof(last_hash, proof):
     IE:  last_hash: ...AE912345, new hash 12345E88...
     """
 
-    # TODO: Your code here!
-    pass
+    guess = f'{proof}'.encode()
+    guess_hash = hashlib.sha256(guess).hexdigest()
+    return last_hash[-5:] == guess_hash[:5]
 
 
 if __name__ == '__main__':
